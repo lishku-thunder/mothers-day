@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Mother's Day</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e8fcfc, #d061ff);
+      color:#ff0569;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .slideshow-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  height: 300px; /* Add a height */
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+#slideshow {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: transform 1s ease-in-out;
+}
+
+
+    /* Floating Hearts Background */
+    .hearts-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #ff0569;
+  transform: rotate(45deg);
+  animation: fall 5s linear infinite;
+  opacity: 0.6;
+}
+
+
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: #ff0569;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes fall {
+  0% {
+    transform: translateY(-10vh) rotate(45deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(110vh) rotate(45deg);
+    opacity: 0;
+  }
+}
+
+
+
+    .page {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      min-height: 100vh;
+      z-index: 1;
+      position: relative;
+    }
+
+    .page.active {
+      display: flex;
+    }
+
+    .container {
+      max-width: 800px;
+      text-align: left;
+      background: #ffd9d9;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      animation: fadeIn 1s ease-in;
+    }
+
+    h1, h2 {
+      color: #8e02ca;
+    }
+
+    .nav {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .nav button {
+      margin: 0 1rem;
+      padding: 0.5rem 1.2rem;
+      font-weight: bold;
+      background: #b303ff;
+      color: white;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .nav button:hover {
+      background: #8e02ca;
+      transform: scale(1.05);
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
+      list-style-type: "❤ ";
+    }
+
+   @keyframes floatUpDown {
+  0% {
+    transform: translateY(0) rotate(45deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(45deg);
+  }
+  100% {
+    transform: translateY(0) rotate(45deg);
+  }
+}
+
+
+
+    p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Hearts -->
+  <div class="hearts-container">
+    <!-- Generate multiple hearts dynamically with JS later -->
+    <div class="heart" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="heart" style="left: 30%; animation-delay: 2s;"></div>
+    <div class="heart" style="left: 50%; animation-delay: 4s;"></div>
+    <div class="heart" style="left: 70%; animation-delay: 1s;"></div>
+    <div class="heart" style="left: 90%; animation-delay: 3s;"></div>
+  </div>
+
+  <!-- Pages Start -->
+  <div class="page active">
+    <div class="container">
+      <h1>Happy Mother’s Day, Mumma</h1>
+      <p>From your daughter, whose heart beats with your love, always.</p>
+      <div class="nav">
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="container">
+      <h2>Our Memories in Photos</h2>
+      <div class="slideshow-wrapper">
+        <img id="slideshow" src="images/IMG_1701.JPG" />
+      </div>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const slideshowImages = [
+      "images/IMG_1701.JPG",
+      "images/IMG_2467.JPG",
+      "images/IMG_2925.JPG",
+      "images/IMG_4390.JPG",
+      "images/IMG_4461.JPG",
+      "images/IMG_4476.JPG",
+      "images/IMG_7885.JPG",
+      "images/IMG_8899.JPG",
+      "images/461A0332.JPEG",
+      "images/6436ae56-4b72-456f-a375-b572371b9e28.JPG"
+    ];
+  
+    let currentSlide = 0;
+    const slideshow = document.getElementById("slideshow");
+  
+    function showNextSlide() {
+      // Slide out
+      slideshow.style.transform = "translateX(100%)";
+  
+      setTimeout(() => {
+        currentSlide = (currentSlide + 1) % slideshowImages.length;
+        slideshow.src = slideshowImages[currentSlide];
+        slideshow.style.transition = "none";
+        slideshow.style.transform = "translateX(-100%)"; // Start from left
+        void slideshow.offsetWidth; // force reflow
+        slideshow.style.transition = "transform 1s ease-in-out";
+        slideshow.style.transform = "translateX(0)";
+      }, 1000);
+    }
+  
+    setInterval(showNextSlide, 3000);
+  </script>
+  
+  
+  
+  
+  <div class="page">
+    <div class="container">
+      <h2>A Letter to You</h2>
+      <p>Hi Mumma,</p>
+      <p>There’s so much I want to say and so much I feel that never makes it out. Even though we aren’t living under the same roof right now, your presence never leaves me. Every corner of my heart has your voice, your warmth, and your care echoing through it.</p>
+      <p>I know life hasn’t been the smoothest for me lately, and maybe I haven’t made you proud yet… but Mumma, I’m trying. Every single day, I’m trying. Even on the days I feel lost, I remember your strength, your sacrifices, and I hold on.</p>
+      <p>I know when you scold me, it’s your way of protecting me, of guiding me. And I promise you—I’m listening, even if I seem distant.</p>
+      <p>I love you so much. More than I ever managed to say.</p>
+      <p>I know that legally you are my sister, but in my heart, no one can replace you as my mumma.</p>
+      <p>— Your daughter, Alishka</p>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page">
+    <div class="container">
+      <h2>Our Moments</h2>
+      <p>Do you remember those long drives we used to take—just the two of us—talking about anything and everything? Or how we used to giggle at silly jokes no one else understood? Those were the safest, warmest moments of my life.</p>
+      <p>I miss falling asleep next to you after a long day, knowing I was wrapped in love. I miss your food, your laugh, your presence. But most of all, I miss being your little girl every single day.</p>
+      <p>I remember the way you held my hand while crossing a busy road, as if that one gesture could shield me from the world. I remember sitting beside you during power cuts, lit only by candlelight, listening to your stories that made me feel like I came from a legacy of strength and heart.</p>
+      <p>Even the silence with you felt full, like words weren’t needed for love to be understood.</p>
+      <p>I remember how you celebrated my tiniest victories like they were the biggest milestones, and how you stood tall behind me during my failures, never letting me forget who I was. You never let the weight of the world touch me — you stood between it and me, always.</p>
+      <p>And sometimes, I remember the way you'd laugh mid-sentence, forgetting the punchline, and I’d laugh harder just watching you.</p>
+      <p>Those little, ordinary things — they’re what I miss most. The gentle rhythm of daily life is shared with you. The comfort of knowing you were always a heartbeat away.</p>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="container">
+      <h2>The Little Things I Do Because of You</h2>
+      <p>It’s in the quiet habits, the tiny echoes, the everyday grace.</p>
+      <ul>
+        <li>I say “call me when you reach” without fail.</li>
+        <li>I reuse glass jars and label them by hand.</li>
+        <li>I never leave the house without saying goodbye properly.</li>
+        <li>I save old buttons in tiny tins “just in case.”</li>
+        <li>I say “thank you” to waiters, guards, and delivery people — always.</li>
+        <li>I smile at people who look lost.</li>
+        <li>I wash new clothes before wearing them.</li>
+        <li>I love fiercely, but quietly — because that’s how you loved me.</li>
+        <li>I whisper your name when I need strength.</li>
+      </ul>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="container">
+      <h2>You're The Reason I Know Love</h2>
+      <p>They say love travels — and I believe it, because yours reaches me even in the quiet, even in the chaos. Your voice steadies me when I feel lost, and your love speaks louder than my fears.</p>
+      <p>Distance hasn't lessened your presence — it's made me realise how deeply you're woven into who I am. I carry your strength in my choices, your warmth in my smile, and your comfort in every tough moment.</p>
+      <p>You're my constant, no matter the miles between us.</p>
+      <p>And today, I vow to live in a way that honours you with courage, with kindness, and with all the love you taught me to give.</p>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="container">
+      <h2>My Hopes, My Promises</h2>
+      <p>I hope one day you’ll look at me and say, ‘She did it. She made it.’</p>
+      <p>Until that day, I promise:</p>
+      <ul>
+        <li>To not give up on myself.</li>
+        <li>To keep trying, even on the hard days.</li>
+        <li>To stay kind, stay strong, and stay real, just like you raised me to be.</li>
+        <li>To always love you louder than any distance can ever silence.</li>
+        <li>To carry your lessons in my every decision.</li>
+        <li>To forgive myself the way you always forgave me.</li>
+        <li>To find joy even in little things, just like you taught me.</li>
+        <li>To never forget where I come from, no matter where I go.</li>
+        <li>To make you proud—not by being perfect, but by being true.</li>
+        <li>And to never stop telling you how much I love you.</li>
+      </ul>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+        <button onclick="nextPage()">Next &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="page">
+    <div class="container">
+      <h2>All That I Am, Is You</h2>
+      <p>When the world grows heavy, and shadows fall,</p>
+      <p>I close my eyes and hear your call.</p>
+      <p>Your voice — a compass, soft and strong,</p>
+      <p>Guides me gently when I go wrong.</p>
+      <p>You scold with love, you lead with grace,</p>
+      <p>Even far away, I feel your embrace.</p>
+      <p>Through every stumble, rise, or doubt,</p>
+      <p>Your love lifts me — there’s no way out.</p>
+      <p>You're my calm in chaos, my morning light,</p>
+      <p>The hand that holds me through the night.</p>
+      <p>No matter the miles, or where I roam,</p>
+      <p>Your heart is my shelter, my forever home.</p>
+      <p>Happy Mother’s Day, Mumma — you're my everything. 💗</p>
+      <div class="nav">
+        <button onclick="prevPage()">&larr; Back</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Navigation Script -->
+  <script>
+    const pages = document.querySelectorAll('.page');
+    let current = 0;
+
+    function showPage(index) {
+      pages[current].classList.remove('active');
+      current = index;
+      pages[current].classList.add('active');
+    }
+
+    function nextPage() {
+      if (current < pages.length - 1) {
+        showPage(current + 1);
+      }
+    }
+
+    function prevPage() {
+      if (current > 0) {
+        showPage(current - 1);
+      }
+    }
+  </script>
+  <script>
+    const heartContainer = document.querySelector('.hearts-container');
+  
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = `${Math.random() * 100}%`;
+      heart.style.animationDelay = `${Math.random() * 5}s`;
+      heart.style.animationDuration = `${4 + Math.random() * 3}s`;
+      heartContainer.appendChild(heart);
+    }
+  </script>
+  
+</body>
+</html>
